@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import PokemonListContainer from '../containers/PokemonListContainer';
 import PokemonDetailsContainer from '../containers/PokemonDetailsContainer';
+import SquadCard from '../components/SquadCard';
 
 // import propTypes from 'prop-types';
 
@@ -82,15 +83,22 @@ class MainView extends React.Component {
   }
 
   handlePokemonSave = (pokemonDetails) => {
+    if(this.state.savedPokemon.length > 5) {
+      return;
+    }
+    let selectedMoves = this.state.selectedPokemonMove;
+    if(selectedMoves === null) {
+      selectedMoves = pokemonDetails.abilities;
+    }
     this.setState({
       savedPokemon: [
         ...this.state.savedPokemon,
         {
-          ...this.state.selectedPokemon,
-          ...this.state.selectedPokemonMove,
+          ...pokemonDetails,
+          moves: selectedMoves,
         }
       ]
-    });
+    }, () => console.log(this.state));
   }
 
   render() {
@@ -120,7 +128,9 @@ class MainView extends React.Component {
         <Row>
           {
             this.state.savedPokemon.map(pokemon => (
-              <CardColumn>{pokemon.name}</CardColumn>
+              <CardColumn key={pokemon.id}>
+                <SquadCard pokemon={pokemon} />
+              </CardColumn>
             ))
           }
         </Row>
