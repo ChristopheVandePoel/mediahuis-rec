@@ -20,6 +20,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const LogoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: 60px;
+`;
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -40,6 +47,8 @@ const DetailColumn = styled.div`
 
 const CardColumn = styled.div`
   flex: 1;
+  max-width: 16%;
+  margin: 5px;
 `;
 
 class MainView extends React.Component {
@@ -51,7 +60,6 @@ class MainView extends React.Component {
   }
 
   handlePokemonSelection = (pokemon) => {
-    console.log('selected', pokemon);
     if(pokemon.id !== this.state.selectedPokemon.id) {
       this.handlePokemonResetStats();
       this.setState({
@@ -104,9 +112,9 @@ class MainView extends React.Component {
   render() {
     return (
       <Container>
-        <Row>
+        <LogoRow>
           <Logo src="https://vignette.wikia.nocookie.net/logopedia/images/2/2b/Pokemon_2D_logo.svg/revision/latest/scale-to-width-down/639?cb=20170115063554" />
-        </Row>
+        </LogoRow>
         <Row>
           <SelectColumn>
             <PokemonListContainer
@@ -128,7 +136,7 @@ class MainView extends React.Component {
         <Row>
           {
             this.state.savedPokemon.map(pokemon => (
-              <CardColumn key={pokemon.id}>
+              <CardColumn key={`${pokemon.id}-${Math.random()}`}>
                 <SquadCard pokemon={pokemon} />
               </CardColumn>
             ))

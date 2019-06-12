@@ -15,6 +15,11 @@ const DetailsContainer = styled.div`
   flex-direction: row;
 `;
 
+const ListTitle = styled.div`
+  color: #FDCC07;
+  text-align: center;
+`;
+
 const GET_POKEMON = gql`
   query($name: String!) {
     Pokemon(name: $name) {
@@ -58,7 +63,7 @@ const PokemonListContainer = ({ selectedPokemon, onSavePokemon, selectedMoves, o
             </DetailsContainer>
           )}
         </Query> :
-        <div>Please select a pokemon...</div>
+        <ListTitle>Please select a pokemon...</ListTitle>
     }
   </>
 );

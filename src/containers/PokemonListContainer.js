@@ -11,6 +11,11 @@ const ListContainer = styled.div`
   overflow-y: scroll;
 `;
 
+const ListTitle = styled.div`
+  color: #FDCC07;
+  text-align: center;
+`;
+
 const GET_ALL_POKEMON = gql`
   query {
     Pokemons(first: 151) {
@@ -24,8 +29,7 @@ const PokemonListContainer = ({ onClickItem }) => (
   <Query query={GET_ALL_POKEMON}>
     {({loading, error, data}) => (
       <div>
-        <span>Select a Pokemon</span>
-        <div>input filter</div>
+        <ListTitle>SELECT A POKEMON</ListTitle>
         <ListContainer>
           {loading ?
             'loading' :
