@@ -1,0 +1,130 @@
+import React from 'react';
+import styled from 'styled-components';
+
+import PokemonListContainer from '../containers/PokemonListContainer';
+import PokemonDetailsContainer from '../containers/PokemonDetailsContainer';
+
+// import propTypes from 'prop-types';
+
+const Logo = styled.img`
+  display: block;
+  margin: 0 auto;
+  max-width: 200px;
+`;
+
+const Container = styled.div`
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  > .row__title {
+    text-align: center;
+    flex: 1;
+  }
+`;
+
+const SelectColumn = styled.div`
+  flex: 1;
+`;
+
+const DetailColumn = styled.div`
+  flex: 4;
+`;
+
+const CardColumn = styled.div`
+  flex: 1;
+`;
+
+class MainView extends React.Component {
+
+  state = {
+    selectedPokemon: {},
+    selectedPokemonMove: null,
+    savedPokemon: [],
+  }
+
+  handlePokemonSelection = (pokemon) => {
+    console.log('selected', pokemon);
+    if(pokemon.id !== this.state.selectedPokemon.id) {
+      this.handlePokemonResetStats();
+      this.setState({
+        selectedPokemon: pokemon,
+      })
+    }
+  }
+
+  handlePokemonMoveAdd = (move) => {
+    if (this.state.selectedPokemonMove.length < 4) {
+      this.setState({
+        selectedPokemonMove: [
+          ...this.state.selectedPokemonMove,
+          move,
+        ]
+      })
+    }
+  }
+
+  handlePokemonMoveRemove = (id) => {
+    this.setState({
+      selectedPokemonMove: this.state.selectedPokemonMove.filter(stat => stat.id !== id),
+    })
+  }
+
+  handlePokemonResetStats = () => {
+    this.setState({
+      selectedPokemonMove: null,
+    })
+  }
+
+  handlePokemonSave = (pokemonDetails) => {
+    this.setState({
+      savedPokemon: [
+        ...this.state.savedPokemon,
+        {
+          ...this.state.selectedPokemon,
+          ...this.state.selectedPokemonMove,
+        }
+      ]
+    });
+  }
+
+  render() {
+    return (
+      <Container>
+        <Row>
+          <Logo src="https://vignette.wikia.nocookie.net/logopedia/images/2/2b/Pokemon_2D_logo.svg/revision/latest/scale-to-width-down/639?cb=20170115063554" />
+        </Row>
+        <Row>
+          <SelectColumn>
+            <PokemonListContainer
+              onClickItem={this.handlePokemonSelection} />
+          </SelectColumn>
+          <DetailColumn>
+            <PokemonDetailsContainer
+              selectedPokemon={this.state.selectedPokemon}
+              onSavePokemon={this.handlePokemonSave}
+              selectedMoves={this.state.selectedPokemonMove} />
+          </DetailColumn>
+        </Row>
+        <Row>
+          <div className="row__title">SELECTED SQUAD</div>
+        </Row>
+        <Row>
+          {
+            this.state.savedPokemon.map(pokemon => (
+              <CardColumn>{pokemon.name}</CardColumn>
+            ))
+          }
+        </Row>
+      </Container>
+    );
+  }
+};
+
+export default MainView;
