@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import PokemonImage from '../components/PokemonImage';
 import PokemonStats from '../components/PokemonStats';
+import PokemonTutor from '../components/PokemonTutor';
 
 const DetailsContainer = styled.div`
   max-height: 400px;
@@ -39,7 +40,7 @@ const GET_POKEMON = gql`
   }
 `;
 
-const PokemonListContainer = ({ selectedPokemon, onSavePokemon, selectedMoves }) => (
+const PokemonListContainer = ({ selectedPokemon, onSavePokemon, selectedMoves, onSelectMove, onRemoveMove }) => (
   <>
     {
       selectedPokemon.name ? 
@@ -50,7 +51,8 @@ const PokemonListContainer = ({ selectedPokemon, onSavePokemon, selectedMoves })
                 loading ? 'loading' :
                 <>
                   <PokemonImage pokemon={data.Pokemon} onSavePokemon={onSavePokemon} />
-                  <PokemonStats pokemon={data.Pokemon} selectedMoves={selectedMoves || data.Pokemon.abilities} />
+                  <PokemonStats pokemon={data.Pokemon} removeMove={onRemoveMove} selectedMoves={selectedMoves || data.Pokemon.abilities} />
+                  <PokemonTutor moves={data.Pokemon.moves} selectedMoves={selectedMoves || data.Pokemon.abilities} onSelectMove={onSelectMove} />
                 </>
               }
             </DetailsContainer>

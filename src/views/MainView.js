@@ -59,20 +59,19 @@ class MainView extends React.Component {
     }
   }
 
-  handlePokemonMoveAdd = (move) => {
-    if (this.state.selectedPokemonMove.length < 4) {
+  handlePokemonMoveAdd = (moves) => {
+    if (!this.state.selectedPokemonMove || this.state.selectedPokemonMove.length < 4) {
       this.setState({
         selectedPokemonMove: [
-          ...this.state.selectedPokemonMove,
-          move,
+          ...moves,
         ]
       })
     }
   }
 
-  handlePokemonMoveRemove = (id) => {
+  handlePokemonMoveRemove = (moves) => {
     this.setState({
-      selectedPokemonMove: this.state.selectedPokemonMove.filter(stat => stat.id !== id),
+      selectedPokemonMove: moves,
     })
   }
 
@@ -109,7 +108,10 @@ class MainView extends React.Component {
             <PokemonDetailsContainer
               selectedPokemon={this.state.selectedPokemon}
               onSavePokemon={this.handlePokemonSave}
-              selectedMoves={this.state.selectedPokemonMove} />
+              selectedMoves={this.state.selectedPokemonMove}
+              onSelectMove={this.handlePokemonMoveAdd}
+              onRemoveMove={this.handlePokemonMoveRemove}
+              />
           </DetailColumn>
         </Row>
         <Row>

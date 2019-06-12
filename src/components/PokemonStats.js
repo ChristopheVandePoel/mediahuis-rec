@@ -34,7 +34,7 @@ const MoveItem = styled.span`
   margin: 2px;
 `;
 
-const PokemonStats = ({ pokemon, selectedMoves }) => (
+const PokemonStats = ({ pokemon, selectedMoves, removeMove }) => (
   <MainContainer>
     <Row>STATS</Row>
     <StatContainer>
@@ -57,7 +57,9 @@ const PokemonStats = ({ pokemon, selectedMoves }) => (
     <div>
         {
           selectedMoves.map(move => (
-            <MoveItem>{move.name}</MoveItem>
+            <MoveItem onClick={() => removeMove([
+              ...selectedMoves.filter(oldMove => oldMove.name !== move.name)
+            ])} key={move.name}>{move.name}</MoveItem>
           ))
         }
     </div>
